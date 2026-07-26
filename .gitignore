@@ -1,0 +1,36 @@
+# === Python / Django ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+
+# === Virtual Environments ===
+venv/
+.venv/
+ENV/
+env/
+
+# === Environment Variables & Secrets ===
+.env
+.env.*
+!.env.example
+
+# === Node / Frontend ===
+node_modules/
+dist/
+build/
+.next/
+
+# === IDE & Editor Settings ===
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === Operating System Files ===
+.DS_Store
+Thumbs.db
+ehthumbs.db

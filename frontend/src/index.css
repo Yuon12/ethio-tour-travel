@@ -1,0 +1,299 @@
+/* ─── FIXED index.css ──────────────────────────────────────────────────────────*/
+/*thiopia Tour & Travel — Global Design System */
+@import url(\'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap\');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --saffron:  #C9920A;
+    --forest:   #14532D;
+    --obsidian: #0D0D12;
+    --ivory:    #F7F3ED;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ── Default page background and text ── */
+  body {
+    @apply font-body bg-ivory;
+    color: #2E2E2E;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+    color: #0D0D0D;
+    line-height: 1.2;
+  }
+
+  ::selection { background: rgba(201,146,10,0.2); color: #0D0D0D; }
+}
+
+@layer components {
+
+  /* ══════════════════════════════════════
+     BUTTONS
+  ══════════════════════════════════════ */
+
+  .btn-gold {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    border-radius: 9999px;
+    font-family: "DM Sans", system-ui, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: #0D0D12;
+    background: linear-gradient(135deg, #C9920A 0%, #E0A80D 50%, #A07205 100%);
+    box-shadow: 0 2px 12px rgba(201,146,10,0.25);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+  }
+  .btn-gold:hover {
+    box-shadow: 0 0 28px rgba(201,146,10,0.4), 0 4px 16px rgba(201,146,10,0.2);
+    transform: translateY(-1px);
+  }
+  .btn-gold:active { transform: translateY(0); }
+  .btn-gold:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .btn-forest {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    border-radius: 9999px;
+    font-family: "DM Sans", system-ui, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: #14532D;
+    box-shadow: 0 2px 12px rgba(20,83,45,0.25);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+  }
+  .btn-forest:hover { background: #166534; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(20,83,45,0.3); }
+  .btn-forest:active { transform: translateY(0); }
+  .btn-forest:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* White-bordered button — used on dark hero backgrounds */
+  .btn-outline-white {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-family: "DM Sans", system-ui, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: rgba(255,255,255,0.08);
+    border: 1.5px solid rgba(255,255,255,0.45);
+    backdrop-filter: blur(8px);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .btn-outline-white:hover { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.7); }
+
+  /* Ghost button — used on light backgrounds */
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-family: "DM Sans", system-ui, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4A4A4A;
+    background: transparent;
+    border: 1.5px solid #D0D0D0;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .btn-ghost:hover { border-color: #C9920A; color: #C9920A; background: rgba(201,146,10,0.04); }
+
+  /* ══════════════════════════════════════
+     TYPOGRAPHY HELPERS
+  ══════════════════════════════════════ */
+
+  /* Eyebrow label — always saffron, high contrast */
+  .eyebrow {
+    font-family: "DM Sans", system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #C9920A;
+  }
+
+  /* Section headings on light backgrounds */
+  .display-title {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-weight: 600;
+    color: #0D0D0D;
+    line-height: 1.1;
+  }
+
+  /* ── Gold divider rule ── */
+  .gold-rule {
+    width: 3rem;
+    height: 2px;
+    background: linear-gradient(135deg, #C9920A 0%, #E0A80D 50%, #A07205 100%);
+    border-radius: 9999px;
+  }
+
+  /* ══════════════════════════════════════
+     CARDS
+  ══════════════════════════════════════ */
+
+  .card-base {
+    background: #ffffff;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 2px 16px rgba(13,13,18,0.07);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .card-base:hover {
+    box-shadow: 0 16px 48px rgba(13,13,18,0.14), 0 0 0 1px rgba(201,146,10,0.18);
+    transform: translateY(-4px);
+  }
+
+  /* Card on dark backgrounds (obsidian sections) */
+  .card-dark {
+    background: #16161F;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+  .card-dark:hover {
+    border-color: rgba(201,146,10,0.35);
+    transform: translateY(-4px);
+  }
+
+  /* ══════════════════════════════════════
+     BADGES / TAGS
+  ══════════════════════════════════════ */
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-family: "DM Sans", system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: capitalize;
+  }
+  .tag-gold  { background: rgba(201,146,10,0.12); color: #8A6200; border: 1px solid rgba(201,146,10,0.25); }
+  .tag-forest{ background: rgba(20,83,45,0.10);   color: #14532D; border: 1px solid rgba(20,83,45,0.20); }
+  .tag-white { background: rgba(255,255,255,0.12); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); backdrop-filter: blur(4px); }
+  .tag-red   { background: rgba(239,68,68,0.12);  color: #b91c1c; border: 1px solid rgba(239,68,68,0.2); }
+
+  /* ══════════════════════════════════════
+     FORM FIELDS
+  ══════════════════════════════════════ */
+
+  .field-label {
+    display: block;
+    font-family: "DM Sans", system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6B6B6B;
+    margin-bottom: 0.5rem;
+  }
+
+  .field-input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border-radius: 0.75rem;
+    font-family: "DM Sans", system-ui, sans-serif;
+    font-size: 0.9rem;
+    color: #0D0D0D;
+    background: #ffffff;
+    border: 1.5px solid #E0DAD0;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .field-input::placeholder { color: #ABABAB; }
+  .field-input:focus {
+    border-color: rgba(201,146,10,0.6);
+    box-shadow: 0 0 0 3px rgba(201,146,10,0.12);
+  }
+
+  /* Input on dark backgrounds */
+  .field-input-dark {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border-radius: 0.75rem;
+    font-family: "DM Sans", system-ui, sans-serif;
+    font-size: 0.9rem;
+    color: #ffffff;
+    background: rgba(255,255,255,0.07);
+    border: 1.5px solid rgba(255,255,255,0.12);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .field-input-dark::placeholder { color: rgba(255,255,255,0.3); }
+  .field-input-dark:focus {
+    border-color: rgba(201,146,10,0.5);
+    box-shadow: 0 0 0 3px rgba(201,146,10,0.10);
+  }
+
+  /* ── Aliases used in existing pages ── */
+  .input       { @apply field-input; }
+  .label       { @apply field-label; }
+  .section-title { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 600; font-size: clamp(1.6rem,3.5vw,2.5rem); color: #0D0D0D; line-height: 1.2; }
+  .section-subtitle { font-family: "DM Sans", system-ui, sans-serif; font-size: 1.1rem; color: #6B6B6B; line-height: 1.65; max-width: 40rem; margin-top: 1rem; }
+  .badge       { display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 9999px; font-family: "DM Sans", system-ui, sans-serif; font-size: 0.7rem; font-weight: 600; }
+  .badge-green { background: rgba(20,83,45,0.10); color: #14532D; border: 1px solid rgba(20,83,45,0.20); }
+  .badge-gold  { background: rgba(201,146,10,0.12); color: #8A6200; border: 1px solid rgba(201,146,10,0.25); }
+  .badge-red   { background: rgba(239,68,68,0.12); color: #b91c1c; border: 1px solid rgba(239,68,68,0.2); }
+  .card        { @apply card-base; }
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar        { width: 5px; }
+::-webkit-scrollbar-track  { background: #F7F3ED; }
+::-webkit-scrollbar-thumb  { background: #D0C0A0; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #C9920A; }
+
+/* ── Stripe Element ── */
+.StripeElement {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
+  background: #ffffff;
+  border: 1.5px solid #E0DAD0;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.StripeElement--focus {
+  border-color: rgba(201,146,10,0.6);
+  box-shadow: 0 0 0 3px rgba(201,146,10,0.12);
+}
