@@ -5,11 +5,13 @@ FROM python:3.10-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Install system dependencies needed for psycopg2 and PostgreSQL
+# Install system dependencies needed for psycopg2, mysqlclient, and compilation
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    libpq-dev \
     gcc \
+    libpq-dev \
+    pkg-config \
+    default-libmysqlclient-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -25,5 +27,5 @@ COPY . /app/
 # Expose Django port
 EXPOSE 8000
 
-# Run migrations and start development server
-CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+# Run static collection, migrations, and start WSGI server with Gunicorn
+CMD ["sh", "-c", "python manage.py collectstatic --noinput && python manage.py migrate && gunicorn core.wsgi:application --bind 0.0.0.0:${PORT:-8000}"]
