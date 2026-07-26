@@ -188,11 +188,17 @@ CSRF_TRUSTED_ORIGINS = env.list(
 # Static & Media Storage
 STATIC_URL  = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+
+# Only include STATICFILES_DIRS if the static folder exists
+if (BASE_DIR / "static").exists():
+    STATICFILES_DIRS = [BASE_DIR / "static"]
+else:
+    STATICFILES_DIRS = []
 
 MEDIA_URL  = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+# Django 4.2+ Storage Dictionary
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
@@ -200,6 +206,17 @@ STORAGES = {
     "staticfiles": {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
+}
+
+# Legacy fallback required by django-cloudinary-storage during collectstatic
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": env("CLOUDINARY_CLOUD_NAME", default=""),
+    "API_KEY":    env("CLOUDINARY_API_KEY",    default=""),
+    "API_SECRET": env("CLOUDINARY_API_SECRET", default=""),
+    "SECURE": True,
 }
 
 CLOUDINARY_STORAGE = {
