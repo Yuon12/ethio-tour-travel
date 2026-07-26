@@ -1,6 +1,5 @@
 """
 Ethiopia Tour & Travel — Django Settings
-=========================================
 Environment-based config via django-environ (.env file).
 """
 from pathlib import Path
@@ -43,6 +42,7 @@ else:
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
+
 # ============================================================
 # INSTALLED APPS
 # ============================================================
@@ -57,7 +57,6 @@ DJANGO_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
 ]
 
 THIRD_PARTY_APPS = [
@@ -72,9 +71,10 @@ THIRD_PARTY_APPS = [
     # CORS
     "corsheaders",
 
-    # Media / Cloudinary
-    "cloudinary",
+    # Media / Cloudinary (cloudinary_storage MUST come before staticfiles)
     "cloudinary_storage",
+    "django.contrib.staticfiles",
+    "cloudinary",
 
     # Custom internationalization tools
     "i18n_content",
@@ -109,11 +109,11 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF    = "core.urls"
+ROOT_URLCONF     = "core.urls"
 WSGI_APPLICATION = "core.wsgi.application"
 
 TEMPLATES = [{
-    "BACKEND": "django.template.backends.django.DjangoTemplates",
+    "BACKEND": "django.template.backends.DjangoTemplates",
     "DIRS": [BASE_DIR / "templates"],
     "APP_DIRS": True,
     "OPTIONS": {"context_processors": [
@@ -134,9 +134,9 @@ DATABASES = {
 AUTH_USER_MODEL = "accounts.User"
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME":  timedelta(hours=1),
+    "ACCESS_TOKEN_LIFETIME":   timedelta(hours=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
-    "ROTATE_REFRESH_TOKENS":  True,
+    "ROTATE_REFRESH_TOKENS":   True,
     "BLACKLIST_AFTER_ROTATION": True,
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
@@ -162,34 +162,54 @@ REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_RATES": {
         "anon": "100/hour", 
         "user": "1000/hour",
-        "auth_burst": "5/minute"  # Custom protection threshold for authentication routes
+        "auth_burst": "5/minute"
     },
 }
 
+# CORS & CSRF Settings
 CORS_ALLOWED_ORIGINS = env.list(
     "CORS_ALLOWED_ORIGINS",
-    default=["http://localhost:5173", "http://localhost:3000",],
+    default=[
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "https://ethio-tour-travel.vercel.app",
+    ],
 )
 CORS_ALLOW_CREDENTIALS = True
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://ethio-tour-travel.vercel.app",
-    "https://ethio-tour-travel-api.onrender.com",
-]
+CSRF_TRUSTED_ORIGINS = env.list(
+    "CSRF_TRUSTED_ORIGINS",
+    default=[
+        "https://ethio-tour-travel.vercel.app",
+        "https://ethio-tour-travel-api.onrender.com",
+    ],
+)
+
+# Static & Media Storage
 STATIC_URL  = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 MEDIA_URL  = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 
 CLOUDINARY_STORAGE = {
     "CLOUD_NAME": env("CLOUDINARY_CLOUD_NAME", default=""),
     "API_KEY":    env("CLOUDINARY_API_KEY",    default=""),
     "API_SECRET": env("CLOUDINARY_API_SECRET", default=""),
+    "SECURE": True,  # Ensures Cloudinary generates HTTPS URLs
 }
 
+# Email Configurations
 EMAIL_BACKEND       = env("EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend")
 EMAIL_HOST          = env("EMAIL_HOST",    default="smtp.sendgrid.net")
 EMAIL_PORT          = env.int("EMAIL_PORT", default=587)
@@ -197,8 +217,6 @@ EMAIL_USE_TLS       = True
 EMAIL_HOST_USER     = env("EMAIL_HOST_USER",     default="")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
 DEFAULT_FROM_EMAIL  = env("DEFAULT_FROM_EMAIL",  default="Ethiopia Tour & Travel <noreply@ethiopiatour.com>")
-
-# Essential variables referenced in our email utility
 ADMIN_EMAIL         = env("ADMIN_EMAIL",         default="info@ethiopiatour.com")
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -207,26 +225,22 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
-#payment_block =
-# ─── Payment Gateway Settings ─────────────────────────────────────────────────
 
-# Stripe — https://dashboard.stripe.com
+# Payment Gateway Settings
 STRIPE_PUBLISHABLE_KEY = env("STRIPE_PUBLISHABLE_KEY", default="pk_test_placeholder")
 STRIPE_SECRET_KEY      = env("STRIPE_SECRET_KEY",      default="sk_test_placeholder")
 STRIPE_WEBHOOK_SECRET  = env("STRIPE_WEBHOOK_SECRET",  default="whsec_placeholder")
 
-# Chapa — https://dashboard.chapa.co (includes Telebirr, CBE Birr, Amole)
 CHAPA_SECRET_KEY     = env("CHAPA_SECRET_KEY",     default="CHASECK-TEST-placeholder")
 CHAPA_PUBLIC_KEY     = env("CHAPA_PUBLIC_KEY",     default="CHAPUBK-TEST-placeholder")
 CHAPA_WEBHOOK_SECRET = env("CHAPA_WEBHOOK_SECRET", default="")
-CHAPA_MAX_AMOUNT = 100000
+CHAPA_MAX_AMOUNT     = 100000
 
-# URLs
+# Base Service URLs
 BACKEND_URL  = env("BACKEND_URL",  default="http://localhost:8000")
 FRONTEND_URL = env("FRONTEND_URL", default="http://localhost:5173")
 
-
-#LANGUAGE_CODE = "en-us"
+# Internationalization
 USE_I18N = True
 LANGUAGE_CODE = "en"
 LANGUAGES = [
@@ -240,12 +254,9 @@ LANGUAGES_BIDI = [
     "fa",
     "ur",
 ]
-# django-modeltranslation config
+
 MODELTRANSLATION_DEFAULT_LANGUAGE = "en"
 MODELTRANSLATION_LANGUAGES = ("en", "am", "fr")
-# Fall back to English content if a translated field is empty, rather than
-# showing blank text on the live site for content that hasn't been
-# translated/reviewed yet.
 MODELTRANSLATION_FALLBACK_LANGUAGES = {"default": ("en",)}
 
 TIME_ZONE    = "Africa/Addis_Ababa"
