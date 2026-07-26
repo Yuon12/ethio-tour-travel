@@ -58,7 +58,9 @@ export default function BookingSuccessPage() {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
         <RefreshCw size={32} className="text-gray-400 animate-spin mb-4" />
-        <p className="text-gray-500">{t("bookingSuccess.confirming", "Confirming your payment…")}</p>
+        <p className="text-gray-500">
+          {t("bookingSuccess.confirming", "Confirming your payment…")}
+        </p>
       </div>
     );
   }
@@ -73,17 +75,26 @@ export default function BookingSuccessPage() {
           {t("bookingSuccess.successTitle", "Payment Successful!")}
         </h1>
         <p className="text-gray-500 max-w-sm mb-6">
-          {t("bookingSuccess.successDesc", { reference, defaultValue: `Thank you! Your tour booking (${reference}) has been confirmed. A confirmation email with details has been sent.` })}
+          {t("bookingSuccess.successDesc", {
+            reference,
+            defaultValue: `Thank you! Your tour booking (${reference}) has been confirmed. A confirmation email with details has been sent.`,
+          })}
         </p>
-        
+
         <div className="flex flex-wrap justify-center gap-3">
           <Link to="/" className="btn-ghost px-6 py-2.5 rounded-full text-sm">
             {t("bookingSuccess.btnHome", "Return to Home")}
           </Link>
-          <Link to="/packages" className="btn-ghost px-6 py-2.5 rounded-full text-sm">
+          <Link
+            to="/packages"
+            className="btn-ghost px-6 py-2.5 rounded-full text-sm"
+          >
             {t("bookingSuccess.btnBrowse", "Browse Packages")}
           </Link>
-          <Link to={`/bookings/${reference}`} className="btn-gold px-6 py-2.5 rounded-full text-sm">
+          <Link
+            to={`/bookings/${reference}`}
+            className="btn-gold px-6 py-2.5 rounded-full text-sm"
+          >
             {t("bookingSuccess.btnView", "View My Booking")}
           </Link>
         </div>
@@ -101,13 +112,22 @@ export default function BookingSuccessPage() {
           {t("bookingSuccess.processingTitle", "Payment Processing")}
         </h1>
         <p className="text-gray-500 max-w-sm mb-6">
-          {t("bookingSuccess.processingDesc", { reference, defaultValue: `We're still confirming your payment for booking ${reference}. This can take a minute — you don't need to pay again. We'll email you once it's confirmed.` })}
+          {t("bookingSuccess.processingDesc", {
+            reference,
+            defaultValue: `We're still confirming your payment for booking ${reference}. This can take a minute — you don't need to pay again. We'll email you once it's confirmed.`,
+          })}
         </p>
         <div className="flex gap-3">
-          <button onClick={checkStatus} className="btn-ghost px-6 py-2.5 rounded-full">
+          <button
+            onClick={checkStatus}
+            className="btn-ghost px-6 py-2.5 rounded-full"
+          >
             {t("bookingSuccess.btnCheckAgain", "Check again")}
           </button>
-          <Link to={`/bookings/${reference}`} className="btn-gold px-6 py-2.5 rounded-full">
+          <Link
+            to={`/bookings/${reference}`}
+            className="btn-gold px-6 py-2.5 rounded-full"
+          >
             {t("bookingSuccess.btnView", "View Booking")}
           </Link>
         </div>
@@ -124,14 +144,23 @@ export default function BookingSuccessPage() {
         {t("bookingSuccess.failedTitle", "Payment Not Confirmed")}
       </h1>
       <p className="text-gray-500 max-w-sm mb-6">
-        {t("bookingSuccess.failedDesc", { reference, defaultValue: `We couldn't confirm your payment for booking ${reference}. If you completed checkout, please wait a moment and check again, or try paying once more.` })}
+        {t("bookingSuccess.failedDesc", {
+          reference,
+          defaultValue: `We couldn't confirm your payment for booking ${reference}. If you completed checkout, please wait a moment and check again, or try paying once more.`,
+        })}
       </p>
       <div className="flex gap-3">
-        <button onClick={checkStatus} className="btn-ghost px-6 py-2.5 rounded-full">
+        <button
+          onClick={checkStatus}
+          className="btn-ghost px-6 py-2.5 rounded-full"
+        >
           {t("bookingSuccess.btnCheckAgain", "Check again")}
         </button>
         {reference && (
-          <Link to={`/bookings/${reference}`} className="btn-gold px-6 py-2.5 rounded-full">
+          <Link
+            to={`/bookings/${reference}`}
+            className="btn-gold px-6 py-2.5 rounded-full"
+          >
             {t("bookingSuccess.btnRetry", "Retry Payment")}
           </Link>
         )}

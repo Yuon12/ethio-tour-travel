@@ -1,17 +1,15 @@
-# Use lightweight Node.js image
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Install dependencies first (leverages Docker cache)
-COPY package*.json /app/
-RUN npm install
+COPY package*.json ./
 
-# Copy project files
-COPY . /app/
+RUN npm ci
 
-# Expose Vite dev server port
-EXPOSE 5173
+COPY . .
 
-# Start Vite dev server accessible from outside container
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+RUN npm run build
+
+EXPOSE 4173
+
+CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0"]
