@@ -5,13 +5,14 @@ FROM python:3.10-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Install system dependencies needed for psycopg2, mysqlclient, and compilation
+# Install system dependencies needed for psycopg2, mysqlclient, pycairo, and compilation
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     gcc \
     libpq-dev \
     pkg-config \
     default-libmysqlclient-dev \
+    libcairo2-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
