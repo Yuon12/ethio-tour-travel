@@ -217,14 +217,6 @@ STORAGES = {
 # Legacy fallback required by django-cloudinary-storage during collectstatic
 STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": env("CLOUDINARY_CLOUD_NAME", default=""),
-    "API_KEY":    env("CLOUDINARY_API_KEY",    default=""),
-    "API_SECRET": env("CLOUDINARY_API_SECRET", default=""),
-    "SECURE": True,
-}
-
 CLOUDINARY_STORAGE = {
     "CLOUD_NAME": env("CLOUDINARY_CLOUD_NAME", default=""),
     "API_KEY":    env("CLOUDINARY_API_KEY",    default=""),
